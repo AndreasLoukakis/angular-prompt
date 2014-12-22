@@ -100,32 +100,34 @@ angular.module('cgPrompt').controller('cgPromptCtrl',['$scope','options','$timeo
 }]);
 
 
-angular.module('cgPrompt').run(['$templateCache', function($templateCache) {
+angular.module('cgPrompt').run(['$templateCache', '$interpolate', function($templateCache, $interpolate) {
   'use strict';
+  var istart = $interpolate.startSymbol(); 
+  var iend = $interpolate.endSymbol();
 
   $templateCache.put('angular-prompt.html',
     "<div>\n" +
     "    <div class=\"modal-header\">\n" +
     "        <button type=\"button\" class=\"close pull-right\" ng-click=\"$dismiss()\" aria-hidden=\"true\">×</button>\n" +
-    "        <h4 class=\"modal-title\">{{options.title}}</h4>\n" +
+    "        <h4 class=\"modal-title\">" + istart + "options.title" + iend + "</h4>\n" +
     "    </div>\n" +
     "    <div class=\"modal-body\">\n" +
     "\n" +
     "        <p ng-if=\"options.message\">\n" +
-    "            {{options.message}}\n" +
+    "            " + istart + "options.message" + iend + "\n" +
     "        </p>\n" +
     "\n" +
     "        <form id=\"cgPromptForm\" name=\"cgPromptForm\" ng-if=\"options.input\" ng-submit=\"submit()\">\n" +
     "            <div class=\"form-group\" ng-class=\"{'has-error':cgPromptForm.$invalid && changed}\">\n" +
-    "                <label for=\"cgPromptInput\">{{options.label}}</label>\n" +
-    "                <input id=\"cgPromptInput\" type=\"text\" class=\"form-control\"  placeholder=\"{{options.label}}\" ng-model=\"input.name\" required ng-change=\"changed=true\" ng-if=\"!options.values || options.values.length === 0\"/ autofocus=\"autofocus\">\n" +
+    "                <label for=\"cgPromptInput\">" + istart + "options.label" + iend + "</label>\n" +
+    "                <input id=\"cgPromptInput\" type=\"text\" class=\"form-control\"  placeholder=\"" + istart + "options.label" + iend + "\" ng-model=\"input.name\" required ng-change=\"changed=true\" ng-if=\"!options.values || options.values.length === 0\"/ autofocus=\"autofocus\">\n" +
     "                <div class=\"input-group\" ng-if=\"options.values\">\n" +
-    "                    <input id=\"cgPromptInput\" type=\"text\" class=\"form-control\" placeholder=\"{{options.label}}\" ng-model=\"input.name\" required ng-change=\"changed=true\" autofocus=\"autofocus\"/>\n" +
+    "                    <input id=\"cgPromptInput\" type=\"text\" class=\"form-control\" placeholder=\"" + istart + "options.label" + iend + "\" ng-model=\"input.name\" required ng-change=\"changed=true\" autofocus=\"autofocus\"/>\n" +
     "\n" +
     "                    <div class=\"input-group-btn\">\n" +
     "                        <button type=\"button\" class=\"btn btn-default dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"caret\"></span></button>\n" +
     "                        <ul class=\"dropdown-menu pull-right\">\n" +
-    "                            <li ng-repeat=\"value in options.values\"><a href=\"\" ng-click=\"input.name = value\">{{value}}</a></li>\n" +
+    "                            <li ng-repeat=\"value in options.values\"><a href=\"\" ng-click=\"input.name = value\">" + istart + "value" + iend + "</a></li>\n" +
     "                        </ul>\n" +
     "                    </div>\n" +
     "                </div>\n" +
@@ -134,7 +136,7 @@ angular.module('cgPrompt').run(['$templateCache', function($templateCache) {
     "\n" +
     "    </div>\n" +
     "    <div class=\"modal-footer\">\n" +
-    "        <button ng-repeat=\"button in options.buttons track by button.label\" class=\"btn btn-default {{button.style}}\" ng-class=\"{'btn-primary':button.primary}\" ng-click=\"buttonClicked(button)\">{{button.label}}</button>\n" +
+    "        <button ng-repeat=\"button in options.buttons track by button.label\" class=\"btn btn-default " + istart + "button.style" + iend + "\" ng-class=\"{'btn-primary':button.primary}\" ng-click=\"buttonClicked(button)\">" + istart + "button.label" + iend + "</button>\n" +
     "    </div>\n" +
     "</div>"
   );
